@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-
 import '../constants/routes.dart';
+import '../firebase_auth_exceptions.dart';
 import '../firebase_options.dart';
 
 class RegisterView extends StatefulWidget {
@@ -35,14 +35,12 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child:
-        SingleChildScrollView(
-          child:
-          FutureBuilder(
+        child: SingleChildScrollView(
+          child: FutureBuilder(
             future: Firebase.initializeApp(
               options: DefaultFirebaseOptions.currentPlatform,
             ),
-            builder: (context, snapshot){
+            builder: (context, snapshot) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -58,10 +56,10 @@ class _RegisterViewState extends State<RegisterView> {
                       child: Image.asset('assets/images/Register.png'),
                     ),
                   ),
-
                   Container(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                     child: TextField(
+                      controller: _email,
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.emailAddress,
                       autocorrect: false,
@@ -82,6 +80,7 @@ class _RegisterViewState extends State<RegisterView> {
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                     child: TextField(
                       textAlign: TextAlign.center,
+                      controller: _password,
                       obscureText: true,
                       autocorrect: false,
                       enableSuggestions: false,
@@ -104,20 +103,70 @@ class _RegisterViewState extends State<RegisterView> {
                       height: 50.0,
                       child: ElevatedButton(
                         onPressed: () async {
-                          final email = _email.text;
-                          final password = _password.text;
-                          final newUser = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                            email: email, password: password,);
+                          try {
+                            final email = _email.text;
+                            final password = _password.text;
+                            final newUser = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: email,
+                              password: password,
+                            );
+                            final user = FirebaseAuth.instance.currentUser!;
+                            user.sendEmailVerification();
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                loginRoute, (route) => false);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                content: Container(
+                                    padding: const EdgeInsets.all(16),
+                                    height: 90,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.lightBlueAccent,
+                                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: const [
+                                        Text('Unable to login!',
+                                          style: TextStyle(fontSize: 12, color: Colors.white),
+                                          maxLines: 2,
+                                        ),
+                                        Text("We've sent you and verification email ,please verify it so you can login",
+                                          style: TextStyle(fontSize: 15,color: Colors.white),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'weak-password') {
+                              throw WeakPasswordAuthException();
+                            } else if (e.code == 'email-already-in-use') {
+                              throw EmailAlreadyInUseAuthException();
+                            } else if (e.code == 'invalid Email') {
+                              throw InvalidEmailAuthException();
+                            } else {
+                              throw GenericAuthException();
+                            }
+                          } catch (_) {
+                            throw GenericAuthException();
+                          }
                         },
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                         ),
-                        child: const Text('Register',
+                        child: const Text(
+                          'Register',
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -135,7 +184,9 @@ class _RegisterViewState extends State<RegisterView> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: const Text('Login',),
+                      child: const Text(
+                        'Login',
+                      ),
                     ),
                   ),
                 ],
