@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../constants/routes.dart';
-import '../firebase_auth_exceptions.dart';
+import '../firebase_things/firebase_auth_exceptions.dart';
 import '../firebase_options.dart';
 
 class LoginView extends StatefulWidget {
