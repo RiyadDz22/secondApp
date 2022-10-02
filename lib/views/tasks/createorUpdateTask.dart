@@ -10,6 +10,13 @@ class CreateOrUpdateTaskView extends StatefulWidget {
 class _CreateOrUpdateTaskViewState extends State<CreateOrUpdateTaskView> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Create new task'),
+      ),
+      body: TextField(
+
+      ),
+    );
   }
 }

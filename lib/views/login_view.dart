@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../constants/routes.dart';
 import '../firebase_things/firebase_auth_exceptions.dart';
 import '../firebase_options.dart';
@@ -15,6 +16,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+
 
   @override
   void initState() {
@@ -102,6 +104,7 @@ class _LoginViewState extends State<LoginView> {
                       height: 50.0,
                       child: ElevatedButton(
                         onPressed: () async {
+
                           try {
                             final email = _email.text;
                             final password = _password.text;
@@ -125,16 +128,24 @@ class _LoginViewState extends State<LoginView> {
                                       height: 71,
                                       decoration: const BoxDecoration(
                                         color: Colors.lightBlueAccent,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
                                       ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: const [
-                                          Text('Unable to login!',
-                                          style: TextStyle(fontSize: 18, color: Colors.white),
+                                          Text(
+                                            'Unable to login!',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
                                           ),
-                                          Text('Please verify your email',
-                                          style: TextStyle(fontSize: 15,color: Colors.white),
+                                          Text(
+                                            'Please verify your email',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),

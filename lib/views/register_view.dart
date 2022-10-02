@@ -112,7 +112,7 @@ class _RegisterViewState extends State<RegisterView> {
                               password: password,
                             );
                             final user = FirebaseAuth.instance.currentUser!;
-                            user.sendEmailVerification();
+                            await user.sendEmailVerification();
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 loginRoute, (route) => false);
                             ScaffoldMessenger.of(context).showSnackBar(
