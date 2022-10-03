@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:second_app/views/tasks/tasks_view.dart';
 
 import '../constants/routes.dart';
 import '../firebase_things/firebase_auth_exceptions.dart';
@@ -115,33 +117,11 @@ class _RegisterViewState extends State<RegisterView> {
                             await user.sendEmailVerification();
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 loginRoute, (route) => false);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                                content: Container(
-                                    padding: const EdgeInsets.all(16),
-                                    height: 90,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.lightBlueAccent,
-                                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: const [
-                                        Text('Unable to login!',
-                                          style: TextStyle(fontSize: 12, color: Colors.white),
-                                          maxLines: 2,
-                                        ),
-                                        Text("We've sent you and verification email ,please verify it so you can login",
-                                          style: TextStyle(fontSize: 15,color: Colors.white),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    )),
-                              ),
+                            Get.snackbar(
+                              "Note!",
+                              "We've sent you an confirmation email, please verify your account to login",
+                                snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.lightBlueAccent,
                             );
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'weak-password') {
@@ -177,7 +157,7 @@ class _RegisterViewState extends State<RegisterView> {
                     height: 50.0,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(loginRoute);
+                        Get.toNamed('/login_view');
                       },
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(

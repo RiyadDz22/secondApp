@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../constants/routes.dart';
 import '../firebase_things/firebase_auth_exceptions.dart';
@@ -118,40 +119,11 @@ class _LoginViewState extends State<LoginView> {
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                   taskRoute, (route) => false);
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  content: Container(
-                                      padding: const EdgeInsets.all(16),
-                                      height: 71,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.lightBlueAccent,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20)),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: const [
-                                          Text(
-                                            'Unable to login!',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          ),
-                                          Text(
-                                            'Please verify your email',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.white),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      )),
-                                ),
+                              Get.snackbar(
+                                "Note!",
+                                "We've sent you an confirmation email, please verify your account to login",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.lightBlueAccent,
                               );
                             }
                           } on FirebaseAuthException catch (e) {
@@ -184,7 +156,7 @@ class _LoginViewState extends State<LoginView> {
                     height: 50.0,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(registerRoute);
+                        Get.toNamed('/register_view');
                       },
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(

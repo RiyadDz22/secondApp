@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:second_app/cloud_database/cloud_task.dart';
 import 'package:second_app/constants/routes.dart';
 import 'package:second_app/firebase_things/firebase_auth_exceptions.dart';
 
@@ -30,12 +31,9 @@ class _TaskViewState extends State<TaskView> {
               icon: const Icon(Icons.logout)),
         ],
       ),
-      body: FloatingActionButton(
-        onPressed: (){
-          Navigator.of(context).pushNamed(createOrUpdateTaskRoute);
-        },
-        child: const Icon(Icons.add),
-      ),
+      body: FloatingActionButton(onPressed: (){},
+          child: const Icon(Icons.add),
+          ),
     );
   }
 }

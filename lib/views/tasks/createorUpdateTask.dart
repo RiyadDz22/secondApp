@@ -14,9 +14,7 @@ class _CreateOrUpdateTaskViewState extends State<CreateOrUpdateTaskView> {
       appBar: AppBar(
         title: Text('Create new task'),
       ),
-      body: TextField(
-
-      ),
+      body: TextField(),
     );
   }
 }
