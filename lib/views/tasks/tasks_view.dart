@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:second_app/cloud_database/cloud_task.dart';
 import 'package:second_app/constants/routes.dart';
 import 'package:second_app/firebase_things/firebase_auth_exceptions.dart';
+import 'package:second_app/notes/notes_view.dart';
 
 class TaskView extends StatefulWidget {
   const TaskView({Key? key}) : super(key: key);
@@ -13,6 +15,8 @@ class TaskView extends StatefulWidget {
 
 class _TaskViewState extends State<TaskView> {
   final user = FirebaseAuth.instance.currentUser!;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

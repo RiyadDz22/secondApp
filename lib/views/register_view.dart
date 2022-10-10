@@ -120,15 +120,29 @@ class _RegisterViewState extends State<RegisterView> {
                             Get.snackbar(
                               "Note!",
                               "We've sent you an confirmation email, please verify your account to login",
-                                snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: Colors.lightBlueAccent,
                             );
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'weak-password') {
+                                                            Get.snackbar(
+                                "Note!",
+                                "Please set a strong password more than 6 characters",
+                                backgroundColor: Colors.lightBlueAccent,
+                              );
                               throw WeakPasswordAuthException();
                             } else if (e.code == 'email-already-in-use') {
+                                                            Get.snackbar(
+                                "Note!",
+                                "This email already used by another account",
+                                backgroundColor: Colors.lightBlueAccent,
+                              );
                               throw EmailAlreadyInUseAuthException();
                             } else if (e.code == 'invalid Email') {
+                                                            Get.snackbar(
+                                "Note!",
+                                "Invalid email",
+                                backgroundColor: Colors.lightBlueAccent,
+                              );
                               throw InvalidEmailAuthException();
                             } else {
                               throw GenericAuthException();

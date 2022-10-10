@@ -4,35 +4,35 @@ import 'cloud_task.dart';
 import 'exceptions.dart';
 
 class FirebaseCloudStorage {
-  final notes = FirebaseFirestore.instance.collection('notes');
+  final tasks = FirebaseFirestore.instance.collection('tasks');
 
-  Future<void> deleteNote({required String documentId}) async {
+  Future<void> deleteTask({required String documentId}) async {
     try {
-      await notes.doc(documentId).delete();
+      await tasks.doc(documentId).delete();
     } catch (e) {
-      throw CouldNotDeleteNoteException();
+      throw CouldNotDeleteTaskException();
     }
   }
 
-  Future<void> updateNote(
+  Future<void> updateTask(
       {required String documentId, required String text}) async {
     try {
-      notes.doc(documentId).update({textFieldName: text});
+      tasks.doc(documentId).update({textFieldName: text});
     } catch (e) {
-      throw CouldNotUpdateNoteException();
+      throw CouldNotUpdateTasksException();
     }
   }
 
-  Stream<Iterable<CloudTask>> allNotes({required String ownerUserId}) =>
-      notes.snapshots().map((event) => event.docs
+  Stream<Iterable<CloudTask>> allTask({required String ownerUserId}) =>
+      tasks.snapshots().map((event) => event.docs
           .map(
             (doc) => CloudTask.fromSnapshot(doc),
           )
-          .where((note) => note.ownerUserId == ownerUserId));
+          .where((task) => task.ownerUserId == ownerUserId));
 
-  Future<Iterable<CloudTask>> getNotes({required String ownerUserId}) async {
+  Future<Iterable<CloudTask>> getTasks({required String ownerUserId}) async {
     try {
-      return await notes
+      return await tasks
           .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
           .get()
           .then(
@@ -41,18 +41,18 @@ class FirebaseCloudStorage {
             ),
           );
     } catch (e) {
-      throw CouldNotGetAllNotesException();
+      throw CouldNotGetAllTasksException();
     }
   }
 
-  Future<CloudTask> createNewNote({required String ownerUserId}) async {
-    final document = await notes.add({
+  Future<CloudTask> createNewTask({required String ownerUserId}) async {
+    final document = await tasks.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: '',
     });
-    final fetchedNote = await document.get();
+    final fetchedTask = await document.get();
     return CloudTask(
-      documentId: fetchedNote.id,
+      documentId: fetchedTask.id,
       ownerUserId: ownerUserId,
       text: '',
     );

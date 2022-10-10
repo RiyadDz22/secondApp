@@ -122,14 +122,23 @@ class _LoginViewState extends State<LoginView> {
                               Get.snackbar(
                                 "Note!",
                                 "We've sent you an confirmation email, please verify your account to login",
-                                snackPosition: SnackPosition.BOTTOM,
                                 backgroundColor: Colors.lightBlueAccent,
                               );
                             }
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
+                                                            Get.snackbar(
+                                "Note!",
+                                "User not found",
+                                backgroundColor: Colors.lightBlueAccent,
+                              );
                               throw UserNotFoundAuthException();
                             } else if (e.code == 'wrong-password') {
+                                                            Get.snackbar(
+                                "Note!",
+                                "Wrong informations",
+                                backgroundColor: Colors.lightBlueAccent,
+                              );
                               throw WrongPasswordAuthException();
                             }
                           } catch (_) {
