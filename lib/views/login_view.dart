@@ -18,7 +18,6 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
-
   @override
   void initState() {
     _email = TextEditingController();
@@ -105,7 +104,6 @@ class _LoginViewState extends State<LoginView> {
                       height: 50.0,
                       child: ElevatedButton(
                         onPressed: () async {
-
                           try {
                             final email = _email.text;
                             final password = _password.text;
@@ -117,27 +115,38 @@ class _LoginViewState extends State<LoginView> {
                             final user = FirebaseAuth.instance.currentUser;
                             if (user?.emailVerified ?? false) {
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  taskRoute, (route) => false);
+                                  homeRoute, (route) => false);
                             } else {
                               Get.snackbar(
                                 "Note!",
                                 "We've sent you an confirmation email, please verify your account to login",
                                 backgroundColor: Colors.lightBlueAccent,
+                                isDismissible: true,
+                                duration: 60.seconds,
+                                mainButton: TextButton(
+                                  onPressed: (Get.back),
+                                  child: const Text(
+                                    'Close',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
                               );
                             }
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
-                                                            Get.snackbar(
+                              Get.snackbar(
                                 "Note!",
                                 "User not found",
+                                duration: 5.seconds,
                                 backgroundColor: Colors.lightBlueAccent,
                               );
                               throw UserNotFoundAuthException();
                             } else if (e.code == 'wrong-password') {
-                                                            Get.snackbar(
+                              Get.snackbar(
                                 "Note!",
                                 "Wrong informations",
                                 backgroundColor: Colors.lightBlueAccent,
+                                duration: 5.seconds,
                               );
                               throw WrongPasswordAuthException();
                             }

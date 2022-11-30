@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:second_app/views/Home.dart';
 import 'package:second_app/views/login_view.dart';
 import 'package:second_app/views/register_view.dart';
-import 'package:second_app/views/tasks/createorUpdateTask.dart';
-import 'package:second_app/views/tasks/tasks_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'constants/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
-        taskRoute: (context) => const TaskView(),
-        createOrUpdateTaskRoute: (context) => const CreateOrUpdateTaskView(),
+        homeRoute: (context) => const HomeView(),
       },
     );
   }

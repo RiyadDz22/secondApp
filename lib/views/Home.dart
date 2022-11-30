@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:second_app/constants/routes.dart';
 import 'package:second_app/firebase_things/firebase_auth_exceptions.dart';
 
+<<<<<<< HEAD
 class TaskView extends StatefulWidget {
   const TaskView({Key? key}) : super(key: key);
 
@@ -11,6 +12,16 @@ class TaskView extends StatefulWidget {
 }
 
 class _TaskViewState extends State<TaskView> {
+=======
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+>>>>>>> 0434a42 (dismis snackbar)
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
@@ -33,9 +44,13 @@ class _TaskViewState extends State<TaskView> {
         ),
         body: SingleChildScrollView(
           child: FloatingActionButton(
+<<<<<<< HEAD
             onPressed: () async {
               
             },
+=======
+            onPressed: () async {},
+>>>>>>> 0434a42 (dismis snackbar)
             child: const Icon(Icons.add),
           ),
         ));
