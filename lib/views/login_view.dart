@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:second_app/firebase_things/google_signin.dart';
 import '../constants/routes.dart';
 import '../firebase_things/firebase_auth_exceptions.dart';
 import '../firebase_options.dart';
@@ -144,7 +145,7 @@ class _LoginViewState extends State<LoginView> {
                             } else if (e.code == 'wrong-password') {
                               Get.snackbar(
                                 "Note!",
-                                "Wrong informations",
+                                "Wrong information's",
                                 backgroundColor: Colors.lightBlueAccent,
                                 duration: 5.seconds,
                               );
@@ -169,6 +170,29 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 250.0,
+                    height: 50.0,
+                    child: OutlinedButton(
+                        onPressed: () {
+                          AuthService().signinWithGoogle();
+                        },
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Row(
+                          children: const [
+                            Image(
+                              width: 100,
+                              image: AssetImage("assets/images/google.png"),
+                            ),
+                            Text('Sign in With Google'),
+                          ],
+                        )),
+                  ),
+                  Gap(30),
                   SizedBox(
                     width: 150.0,
                     height: 50.0,
