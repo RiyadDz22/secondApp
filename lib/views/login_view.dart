@@ -185,7 +185,7 @@ class _LoginViewState extends State<LoginView> {
                         child: Row(
                           children: const [
                             Image(
-                              width: 100,
+                              width: 95,
                               image: AssetImage("assets/images/google.png"),
                             ),
                             Text('Sign in With Google'),
