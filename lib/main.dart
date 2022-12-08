@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:second_app/firebase_things/google_signin.dart';
-import 'package:second_app/views/Home.dart';
+import 'package:second_app/auth/google_signin.dart';
+import 'package:second_app/views/notes/Home.dart';
 import 'package:second_app/views/login_view.dart';
+import 'package:second_app/views/notes/takingNotesView.dart';
 import 'package:second_app/views/register_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'constants/routes.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
         homeRoute: (context) => const HomeView(),
+        noteTaking: (context) => const TakingNotesView(),
       },
     );
   }

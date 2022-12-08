@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:second_app/firebase_things/google_signin.dart';
+import 'package:second_app/auth/google_signin.dart';
 import '../constants/routes.dart';
 import '../firebase_things/firebase_auth_exceptions.dart';
 import '../firebase_options.dart';
@@ -25,6 +25,7 @@ class _LoginViewState extends State<LoginView> {
     _password = TextEditingController();
     super.initState();
   }
+
 
   @override
   void dispose() {
@@ -157,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
                         },
                         style: ButtonStyle(
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
