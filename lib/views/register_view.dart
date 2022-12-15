@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:second_app/views/tasks/tasks_view.dart';
 
 import '../constants/routes.dart';
 import '../firebase_things/firebase_auth_exceptions.dart';
@@ -121,27 +120,39 @@ class _RegisterViewState extends State<RegisterView> {
                               "Note!",
                               "We've sent you an confirmation email, please verify your account to login",
                               backgroundColor: Colors.lightBlueAccent,
+                              isDismissible: true,
+                              duration: 60.seconds,
+                              mainButton: TextButton(
+                                onPressed: (Get.back),
+                                child: const Text(
+                                  'Close',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
                             );
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'weak-password') {
-                                                            Get.snackbar(
+                              Get.snackbar(
                                 "Note!",
                                 "Please set a strong password more than 6 characters",
                                 backgroundColor: Colors.lightBlueAccent,
+                                duration: 5.seconds,
                               );
                               throw WeakPasswordAuthException();
                             } else if (e.code == 'email-already-in-use') {
-                                                            Get.snackbar(
+                              Get.snackbar(
                                 "Note!",
                                 "This email already used by another account",
                                 backgroundColor: Colors.lightBlueAccent,
+                                duration: 5.seconds,
                               );
                               throw EmailAlreadyInUseAuthException();
                             } else if (e.code == 'invalid Email') {
-                                                            Get.snackbar(
+                              Get.snackbar(
                                 "Note!",
                                 "Invalid email",
                                 backgroundColor: Colors.lightBlueAccent,
+                                duration: 5.seconds,
                               );
                               throw InvalidEmailAuthException();
                             } else {

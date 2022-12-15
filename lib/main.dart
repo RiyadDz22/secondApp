@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:second_app/auth/google_signin.dart';
+import 'package:second_app/views/notes/Home.dart';
 import 'package:second_app/views/login_view.dart';
+import 'package:second_app/views/notes/takingNotesView.dart';
 import 'package:second_app/views/register_view.dart';
-import 'package:second_app/views/tasks/createorUpdateTask.dart';
-import 'package:second_app/views/tasks/tasks_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'constants/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -25,12 +25,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginView(),
+      home: AuthService().handleAuthState(),
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
-        taskRoute: (context) => const TaskView(),
-        createOrUpdateTaskRoute: (context) => const CreateOrUpdateTaskView(),
+        homeRoute: (context) => const HomeView(),
+        noteTaking: (context) => const TakingNotesView(),
       },
     );
   }

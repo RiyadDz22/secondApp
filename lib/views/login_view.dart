@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:second_app/auth/google_signin.dart';
 import '../constants/routes.dart';
 import '../firebase_things/firebase_auth_exceptions.dart';
 import '../firebase_options.dart';
@@ -18,13 +19,13 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
-
   @override
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
     super.initState();
   }
+
 
   @override
   void dispose() {
@@ -105,7 +106,6 @@ class _LoginViewState extends State<LoginView> {
                       height: 50.0,
                       child: ElevatedButton(
                         onPressed: () async {
-
                           try {
                             final email = _email.text;
                             final password = _password.text;
@@ -117,27 +117,38 @@ class _LoginViewState extends State<LoginView> {
                             final user = FirebaseAuth.instance.currentUser;
                             if (user?.emailVerified ?? false) {
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  taskRoute, (route) => false);
+                                  homeRoute, (route) => false);
                             } else {
                               Get.snackbar(
                                 "Note!",
                                 "We've sent you an confirmation email, please verify your account to login",
                                 backgroundColor: Colors.lightBlueAccent,
+                                isDismissible: true,
+                                duration: 60.seconds,
+                                mainButton: TextButton(
+                                  onPressed: (Get.back),
+                                  child: const Text(
+                                    'Close',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
                               );
                             }
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
-                                                            Get.snackbar(
+                              Get.snackbar(
                                 "Note!",
                                 "User not found",
+                                duration: 5.seconds,
                                 backgroundColor: Colors.lightBlueAccent,
                               );
                               throw UserNotFoundAuthException();
                             } else if (e.code == 'wrong-password') {
-                                                            Get.snackbar(
+                              Get.snackbar(
                                 "Note!",
-                                "Wrong informations",
+                                "Wrong information's",
                                 backgroundColor: Colors.lightBlueAccent,
+                                duration: 5.seconds,
                               );
                               throw WrongPasswordAuthException();
                             }
@@ -147,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
                         },
                         style: ButtonStyle(
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -160,6 +171,29 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 250.0,
+                    height: 50.0,
+                    child: OutlinedButton(
+                        onPressed: () {
+                          AuthService().signinWithGoogle();
+                        },
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Row(
+                          children: const [
+                            Image(
+                              width: 95,
+                              image: AssetImage("assets/images/google.png"),
+                            ),
+                            Text('Sign in With Google'),
+                          ],
+                        )),
+                  ),
+                  Gap(30),
                   SizedBox(
                     width: 150.0,
                     height: 50.0,
