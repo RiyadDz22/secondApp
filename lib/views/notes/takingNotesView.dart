@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../crud/crud_service.dart';
+import 'package:second_app/constants/routes.dart';
+import 'package:second_app/crud/crud_service.dart';
 
 class TakingNotesView extends StatefulWidget {
   const TakingNotesView({Key? key}) : super(key: key);
@@ -10,76 +10,47 @@ class TakingNotesView extends StatefulWidget {
 }
 
 class _TakingNotesViewState extends State<TakingNotesView> {
-  List<Map<String, dynamic>> _notes = [];
-  bool _isLoading = true;
-
-  void _refrechNotes() async {
-    final data = await SqlHelper.getNotes();
-    setState(() {
-      _notes = data;
-      _isLoading = false;
-    });
-  }
+  final TextEditingController title = TextEditingController();
+  final TextEditingController description = TextEditingController();
 
   @override
   void initState() {
-    _refrechNotes();
     super.initState();
-  }
-
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-
-  get id => _showNotes(id);
-
-  void _showNotes(int? id) async {
-    if (id != null) {
-      final existingNote = _notes.firstWhere((element) => element['id'] == id);
-      _titleController.text = existingNote['title'];
-      _descriptionController.text = existingNote['description'];
-    }
-  }
-
-  Future<void> _addItem() async {
-    SqlHelper.createNote(_titleController.text, _descriptionController.text);
-    _refrechNotes();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('taking a note..'),
-      ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-            decoration: const InputDecoration(
-              hintText: 'title',
+        appBar: AppBar(
+          title: const Text('taking a note...'),
+        ),
+        body: Column(
+          children: [
+            TextField(
+              controller: title,
+              decoration: const InputDecoration(
+                hintText: 'title',
+              ),
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
             ),
-          ),
-          TextField(
-            controller: _descriptionController,
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-            decoration:
-                const InputDecoration(hintText: 'Write your note here...'),
-          ),
-          FloatingActionButton(
-            onPressed: () async {
-              if (id == null) {
-                await _addItem();
-              }
-              if (id != null) {}
-              Navigator.of(context).pop();
-            },
-            child: const Icon(Icons.check),
-          ),
-        ],
-      ),
-    );
+            TextField(
+              controller: description,
+              decoration: const InputDecoration(
+                hintText: 'write your note here',
+              ),
+              keyboardType: TextInputType.multiline,
+            ),
+            FloatingActionButton(
+              onPressed: () async {
+                final note =
+                    await SQLHelper.createItem(title.text, description.text);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(homeRoute, (route) => false);
+              },
+              child: const Icon(Icons.check),
+            ),
+          ],
+        ));
   }
 }

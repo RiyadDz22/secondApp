@@ -14,6 +14,25 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  List<Map<String, dynamic>> _notes = [];
+
+  bool _isLoading = true;
+
+  // This function is used to fetch all data from the database
+  void _refreshJournals() async {
+    final data = await SQLHelper.getItems();
+    setState(() {
+      _notes = data;
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshJournals(); // Loading the diary when the app starts
+  }
+
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
@@ -34,13 +53,26 @@ class _HomeViewState extends State<HomeView> {
               icon: const Icon(Icons.logout)),
         ],
       ),
-      body: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed('/noting_view');
-        },
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
-      ),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: _notes.length,
+              itemBuilder: (context, index) => Card(
+                color: Colors.lightBlueAccent,
+                margin: const EdgeInsets.all(15),
+                child: ListTile(
+                    title: Text(_notes[index]['title']),
+                    subtitle: Text(_notes[index]['description']),
+                    trailing: SizedBox(
+                      width: 100,
+                      child: Row(
+                        children: [],
+                      ),
+                    )),
+              ),
+            ),
     );
   }
 }
