@@ -18,14 +18,15 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  bool _passwordVisible = false;
 
   @override
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
+    _passwordVisible = false;
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -84,12 +85,26 @@ class _LoginViewState extends State<LoginView> {
                     child: TextField(
                       textAlign: TextAlign.center,
                       controller: _password,
-                      obscureText: true,
+                      obscureText: !_passwordVisible,
                       autocorrect: false,
                       enableSuggestions: false,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
                         hintText: 'Password',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            // Based on passwordVisible state choose the icon
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                        ),
                         filled: true,
                         fillColor: Colors.blue.shade100,
                         border: OutlineInputBorder(
@@ -158,7 +173,7 @@ class _LoginViewState extends State<LoginView> {
                         },
                         style: ButtonStyle(
                           shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),

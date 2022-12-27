@@ -63,16 +63,28 @@ class _HomeViewState extends State<HomeView> {
                 color: Colors.lightBlueAccent,
                 margin: const EdgeInsets.all(15),
                 child: ListTile(
-                    title: Text(_notes[index]['title']),
-                    subtitle: Text(_notes[index]['description']),
-                    trailing: SizedBox(
-                      width: 100,
-                      child: Row(
-                        children: [],
-                      ),
-                    )),
+                  title: Text(_notes[index]['title']),
+                  subtitle: Text(_notes[index]['description']),
+                  trailing: SizedBox(
+                    width: 100,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.delete_outline_sharp),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(noteTaking);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

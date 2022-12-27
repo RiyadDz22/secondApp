@@ -32,7 +32,6 @@ class _TakingNotesViewState extends State<TakingNotesView> {
                 hintText: 'title',
               ),
               maxLines: null,
-              keyboardType: TextInputType.multiline,
             ),
             TextField(
               controller: description,
@@ -43,8 +42,7 @@ class _TakingNotesViewState extends State<TakingNotesView> {
             ),
             FloatingActionButton(
               onPressed: () async {
-                final note =
-                    await SQLHelper.createItem(title.text, description.text);
+                await SQLHelper.createItem(title.text, description.text);
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil(homeRoute, (route) => false);
               },
