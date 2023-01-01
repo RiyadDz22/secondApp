@@ -226,6 +226,24 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
+                  Gap(30),
+                  SizedBox(
+                    width: 150,
+                    height: 50,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(passwordReset);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: const Text(
+                        'Reset Password',
+                      ),
+                    ),
+                  )
                 ],
               );
             },
